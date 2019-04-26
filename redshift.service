@@ -1,0 +1,16 @@
+[Unit]
+Description=Redshift blue-light filter (Stephen created this service :D)
+Documentation=man:redshift(1)
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/redshift
+StandardOutput=null
+Restart=on-failure
+Environment=DISPLAY=:0
+User=dolmengate
+Group=dolmengate
+
+[Install]
+WantedBy=graphical.target
