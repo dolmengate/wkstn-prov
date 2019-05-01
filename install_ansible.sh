@@ -5,6 +5,6 @@ sudo apt-get install software-properties-common
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt-get install ansible -y
 
-mkdir -r /etc/ansible/facts.d/
+mkdir -p /etc/ansible/facts.d/
 repo_loc=$(readlink -f $(dirname "$0"))
 cp "$repo_loc"/roles/common/files/etc/ansible/facts.d/ /etc/ansible/
