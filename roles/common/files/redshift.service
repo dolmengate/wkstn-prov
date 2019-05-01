@@ -6,7 +6,6 @@ StartLimitIntervalSec=0
 [Service]
 Type=simple
 ExecStart=/usr/bin/redshift
-StandardOutput=null
 Restart=on-failure
 Environment=DISPLAY=:0
 User=dolmengate

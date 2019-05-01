@@ -23,7 +23,8 @@ repo_loc="$user_home/repos/wkstn-prov"
 
 ln -f /etc/default/grub "$repo_loc/etc/default/grub"
 ln -f /etc/profile "$repo_loc/etc/profile"
-ln -f /etc/bash.bashrc "$repo_loc/etc/bash.bashrc"
+ln -f "$user_home/.bash_profile" "$repo_loc/home/.bash_profile"
 ln -f "$user_home/.bashrc" "$repo_loc/home/.bashrc"
+
 ln -f "$user_home/.config/i3/config" "$repo_loc/home/.config/i3/config"
 ln -f "$user_home/.ssh/config" "$repo_loc/home/.ssh/config"

@@ -1,0 +1,92 @@
+---
+- hosts: doppel
+  become: yes
+  vars:
+    home_user: vagrant
+    pycharm_version: 2019.1.1
+  tasks:
+  - name: copy ~/.bashrc
+    copy:
+      src:
+      dest:
+  - name: copy /etc/profile
+    copy:
+      src:
+      dest:
+  - name: copy ~/.profile
+    copy:
+      src:
+      dest:
+  - name: copy 
+    copy:
+      src:
+      dest:
+  - name: install initial distro updates
+    apt:
+      name: "*"
+      update_cache: yes
+      state: latest
+      force_apt_get: yes
+  - name: install hardware config utils and window manager
+    apt: 
+      name: "{{ a_v_packages }}"
+    vars:
+      a_v_packages:
+      - xinit
+      - i3
+      - xbacklight
+      - alsa-utils
+      - pulseaudio
+    notify: 
+    - restart display manager
+  - name: add docker apt repository key
+    apt_key:
+      url: "https://download.docker.com/linux/ubuntu/gpg"
+      state: present
+  - name: add docker apt repository 
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu {{ hostvars['doppel']['ansible_distribution_release'] }} stable
+  - name: install docker
+    apt:
+      name: "{{ docker_packages }}"
+    vars:
+      docker_packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  - name: download pycharm tarball
+    get_url:
+      url: https://download.jetbrains.com/python/pycharm-community-{{pycharm_version}}.tar.gz
+      dest: /tmp/
+  - name: extract pycharm tarball
+    unarchive:
+      copy: no
+      src: /tmp/pycharm-community{{ pycharm_version }}.tar.gz
+      dest: /tmp/
+      owner: "{{ home_user }}"
+  - name: move extracted pycharm to /usr/local/bin/
+    command: mv /tmp/pycharm-community-{{ pycharm_version }}/ /usr/local/bin/
+  - name: add pycharm to $PATH
+    lineinfile:
+      path: /home/{{ home_user }}/.profile
+      line: "PATH=/usr/local/bin/pycharm-community-2019.1.1/bin/:$PATH"
+  - name: copy redshift.service file
+    copy:
+      src: ./roles/common/files/redshift.service
+      dest: /etc/systemd/system/
+  - name: create symlink to graphical.target.wants for redshift.service
+    file:
+      src: /etc/systemd/system/redshift.service
+      dest: /etc/systemd/system/graphical.target.wants/redshift.service
+      state: link
+  - name: daemon-reload systemd and start redshift.service
+    systemd:
+      name: redshift.service
+      state: started
+      daemon_reload: yes
+      enabled: yes
+  handlers:
+    - name: restart display manager
+      service:
+        name: display-manager.service
+        state: restarted    
