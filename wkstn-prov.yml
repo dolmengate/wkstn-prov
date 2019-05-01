@@ -7,20 +7,24 @@
   tasks:
   - name: copy ~/.bashrc
     copy:
-      src:
-      dest:
+      src: ./roles/common/files/home/.bashrc
+      dest: /home/{{ home_user}}/
   - name: copy /etc/profile
     copy:
-      src:
-      dest:
+      src: ./roles/common/files/etc/profile
+      dest: /etc/
   - name: copy ~/.profile
     copy:
-      src:
-      dest:
-  - name: copy 
+      src: ./roles/common/files/home/.profile
+      dest: /home/{{ home_user }}/
+  - name: copy ~/.vimrc
     copy:
-      src:
-      dest:
+      src: ./roles/common/files/home/.vimrc
+      dest: /home/{{ home_user }}/
+  - name: copy user ssh config
+    copy:
+      src: ./roles/common/files/home/.ssh/config
+      dest: /home/{{ home_user }}/.ssh/
   - name: install initial distro updates
     apt:
       name: "*"
@@ -39,6 +43,10 @@
       - pulseaudio
     notify: 
     - restart display manager
+  - name: copy i3 config
+    copy:
+      src: ./roles/common/files/home/.config/i3/config
+      dest: /home/{{ home_user }}/.config/i3/
   - name: add docker apt repository key
     apt_key:
       url: "https://download.docker.com/linux/ubuntu/gpg"
@@ -57,19 +65,21 @@
   - name: download pycharm tarball
     get_url:
       url: https://download.jetbrains.com/python/pycharm-community-{{pycharm_version}}.tar.gz
-      dest: /tmp/
+      dest: /tmp/pycharm-community-{{pycharm_version}}.tar.gz
   - name: extract pycharm tarball
     unarchive:
-      copy: no
-      src: /tmp/pycharm-community{{ pycharm_version }}.tar.gz
+      src: /tmp/pycharm-community-{{ pycharm_version }}.tar.gz
       dest: /tmp/
       owner: "{{ home_user }}"
+      remote_src: yes
   - name: move extracted pycharm to /usr/local/bin/
     command: mv /tmp/pycharm-community-{{ pycharm_version }}/ /usr/local/bin/
+  - name: remove extension from pycharm.sh
+    command: mv /usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/pycharm.sh /usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/pycharm
   - name: add pycharm to $PATH
     lineinfile:
       path: /home/{{ home_user }}/.profile
-      line: "PATH=/usr/local/bin/pycharm-community-2019.1.1/bin/:$PATH"
+      line: PATH="/usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/:$PATH"
   - name: copy redshift.service file
     copy:
       src: ./roles/common/files/redshift.service
@@ -85,8 +95,39 @@
       state: started
       daemon_reload: yes
       enabled: yes
+  - name: re-establish hardlink /etc/profile to repo
+    file:
+      state: hard
+      src: /etc/profile
+      dest: ./roles/common/files/etc/profile
+  - name: re-establish hardlink .bashrc to repo
+    file:
+      state: hard
+      src: 
+      dest: 
+  - name: re-establish hardlink i3 config to repo
+    file:
+      state: hard
+      src: 
+      dest: 
+  - name: re-establish hardlink ssh config to repo
+    file:
+      state: hard
+      src: 
+      dest: 
+  - name: hardlink .vimrc to repo
+    file:
+      state: hard
+      src: 
+      dest: 
+  - name: hardlink 
+    file:
+      state: hard
+      src: 
+      dest: 
+
   handlers:
     - name: restart display manager
       service:
         name: display-manager.service
-        state: restarted    
+        state: restarted
