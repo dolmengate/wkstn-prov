@@ -7,4 +7,4 @@ sudo apt-get install ansible -y
 
 mkdir -p /etc/ansible/facts.d/
 repo_loc=$(readlink -f $(dirname "$0"))
-cp "$repo_loc"/roles/common/files/etc/ansible/facts.d/ /etc/ansible/
+cp -r "$repo_loc"/roles/common/files/etc/ansible/facts.d/ /etc/ansible/
