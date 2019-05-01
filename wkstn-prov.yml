@@ -104,24 +104,24 @@
   - name: re-establish hardlink .bashrc to repo
     file:
       state: hard
-      src: 
-      dest: 
+      src: /home/{{ home_user }}/.bashrc
+      dest: ./roles/common/files/home/.bashrc
   - name: re-establish hardlink i3 config to repo
     file:
       state: hard
-      src: 
-      dest: 
+      src: /home/{{ home_user }}/.config/i3/config
+      dest: ./roles/common/files/home/.config/i3/config
   - name: re-establish hardlink ssh config to repo
     file:
       state: hard
-      src: 
-      dest: 
-  - name: hardlink .vimrc to repo
+      src: /home/{{ home_user }}/.vimrc
+      dest: ./roles/common/files/home/.vimrc
+  - name: re-establish hardlink .vimrc to repo
     file:
       state: hard
-      src: 
-      dest: 
-  - name: hardlink 
+      src: /home/{{ home_user }}/.vimrc
+      dest: ./roles/common/files/home/.vimrc
+  - name: re-establish hardlink 
     file:
       state: hard
       src: 

@@ -116,5 +116,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias idea='bash /usr/local/bin/idea-IC-183.4886.37/bin/idea.sh &'
 alias gits='git status'
+alias vagrants='vagrant status'
