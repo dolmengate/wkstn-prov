@@ -1,8 +1,9 @@
 ---
-- hosts: doppel
+- hosts: 127.0.0.1
+  connection: local
   become: yes
   vars:
-    home_user: vagrant
+    home_user: lookup('env', 'USERNAME')
     pycharm_version: 2019.1.1
   tasks:
   - name: copy ~/.bashrc
