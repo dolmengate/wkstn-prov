@@ -5,6 +5,7 @@
   vars:
     home_user: lookup('env', 'USERNAME')
     pycharm_version: 2019.1.1
+    ubuntu_release: bionic
   tasks:
   - name: copy ~/.bashrc
     copy:
@@ -54,7 +55,7 @@
       state: present
   - name: add docker apt repository 
     apt_repository:
-      repo: deb https://download.docker.com/linux/ubuntu {{ ansible_local['machine']['release'] }} stable
+      repo: deb https://download.docker.com/linux/ubuntu {{ ubuntu_release }} stable
   - name: install docker
     apt:
       name: "{{ docker_packages }}"
