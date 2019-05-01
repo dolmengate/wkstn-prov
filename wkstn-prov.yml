@@ -102,31 +102,37 @@
       state: hard
       src: /etc/profile
       dest: ./roles/common/files/etc/profile
+      force: yes
   - name: re-establish hardlink .profile to repo
     file:
       state: hard
       src: /home/{{ home_user }}/.profile
       dest: ./roles/common/files/home/.profile
+      force: yes
   - name: re-establish hardlink .bashrc to repo
     file:
       state: hard
       src: /home/{{ home_user }}/.bashrc
       dest: ./roles/common/files/home/.bashrc
+      force: yes
   - name: re-establish hardlink i3 config to repo
     file:
       state: hard
       src: /home/{{ home_user }}/.config/i3/config
       dest: ./roles/common/files/home/.config/i3/config
+      force: yes
   - name: re-establish hardlink ssh config to repo
     file:
       state: hard
       src: /home/{{ home_user }}/.ssh/config
       dest: ./roles/common/files/home/.ssh/config
+      force: yes
   - name: re-establish hardlink .vimrc to repo
     file:
       state: hard
       src: /home/{{ home_user }}/.vimrc
       dest: ./roles/common/files/home/.vimrc
+      force: yes
   handlers:
     - name: restart display manager
       service:
