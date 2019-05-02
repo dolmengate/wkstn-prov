@@ -78,10 +78,6 @@
     command: mv /tmp/pycharm-community-{{ pycharm_version }}/ /usr/local/bin/
   - name: remove extension from pycharm.sh
     command: mv /usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/pycharm.sh /usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/pycharm
-  - name: add pycharm to $PATH
-    lineinfile:
-      path: /home/{{ home_user }}/.profile
-      line: PATH="/usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/:$PATH"
   - name: copy redshift.service file
     copy:
       src: ./roles/common/files/redshift.service
