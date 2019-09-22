@@ -1,0 +1,17 @@
+- name: download pycharm tarball
+  get_url:
+    url: https://download.jetbrains.com/python/pycharm-community-{{pycharm_version}}.tar.gz
+    dest: /tmp/pycharm-community-{{pycharm_version}}.tar.gz
+
+- name: extract pycharm tarball
+  unarchive:
+    src: /tmp/pycharm-community-{{ pycharm_version }}.tar.gz
+    dest: /tmp/
+    owner: "{{ home_user }}"
+    remote_src: yes
+
+- name: move extracted pycharm to /usr/local/bin/
+  command: mv /tmp/pycharm-community-{{ pycharm_version }}/ /usr/local/bin/
+
+- name: remove extension from pycharm.sh
+  command: mv /usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/pycharm.sh /usr/local/bin/pycharm-community-{{ pycharm_version }}/bin/pycharm

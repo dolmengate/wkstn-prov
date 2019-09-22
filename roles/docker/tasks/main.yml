@@ -1,0 +1,13 @@
+- name: add docker apt repository 
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ubuntu_release }} stable
+
+- name: install docker
+  apt:
+    name: "{{ docker_packages }}"
+  vars:
+    docker_packages:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    

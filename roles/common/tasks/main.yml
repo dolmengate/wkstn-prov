@@ -1,0 +1,34 @@
+- name: copy ~/.bashrc into home folder
+  copy:
+    src: ./roles/common/files/home/.bashrc
+    dest: /home/{{ home_user}}/
+
+- name: copy /etc/profile into home folder
+  copy:
+    src: ./roles/common/files/etc/profile
+    dest: /etc/
+
+- name: copy ~/.profile into home folder
+  copy:
+    src: ./roles/common/files/home/.profile
+    dest: /home/{{ home_user }}/
+
+- name: copy ~/.vimrc into home folder
+  copy:
+    src: ./roles/common/files/home/.vimrc
+    dest: /home/{{ home_user }}/
+
+- name: copy user ssh config into home folder
+  copy:
+    src: ./roles/common/files/home/.ssh/config
+    dest: /home/{{ home_user }}/.ssh/
+
+# - name: install initial distro updates
+#   apt:
+#     name: "*"
+#     update_cache: yes
+#     state: latest
+#     force_apt_get: yes
+
+- name: perform post-clone repo configuration maintenance
+  import_tasks: repo-config.yml
